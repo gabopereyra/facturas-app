@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>¿Cuántas facturas debés?</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #fff4e6;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      .question {
+        margin-bottom: 1.5rem;
+      }
+      .options button {
+        display: block;
+        margin: 0.5rem 0;
+        width: 100%;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: #ffcc80;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .options button:hover {
+        background: #ffb74d;
+      }
+      .result {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 2rem;
+      }
+      .text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h1>Cotizador de 🥐</h1>
+        <hr />
+      </div>
+      <div class="text-center">
+        <div id="quiz"></div>
+        <div class="result" id="result"></div>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          text: "¿Cuál es tu seniority?",
+          options: [
+            { text: "Junior", points: 0 },
+            { text: "Semi Senior", points: 1 },
+            { text: "Senior", points: 3 },
+            { text: "Lider", points: 6 },
+          ],
+        },
+        {
+          text: "¿Era un problema que ya habías tenido antes?",
+          options: [
+            { text: "Jamás, era solo conocido en la mitología", points: 0 },
+            { text: "Creo que algo parecido vi una vez", points: 1 },
+            { text: "Sí, lo sufrí alguna vez", points: 3 },
+            { text: "Prefiero no responder esto", points: 6 },
+          ],
+        },
+        {
+          text: "¿Cuánto crees te costaba resolverlo sin ayuda?",
+          options: [
+            { text: "Me hubiese llevado la semana entera", points: 0 },
+            { text: "Varias horas fácil", points: 1 },
+            { text: "Un rato, pero con dolor", points: 3 },
+            { text: "Eh... ¿y si mejor hablamos del clima?", points: 6 },
+          ],
+        },
+        {
+          text: "¿Qué tan rápido te lo resolvieron?",
+          options: [
+            { text: "En tiempo récord", points: 0 },
+            { text: "Rápido y sin vueltas", points: 1 },
+            { text: "Tardó un poco pero lo logró", points: 3 },
+            { text: "Más lento que perezozo bajando de un árbol", points: 6 },
+          ],
+        },
+        {
+          text: "¿Se rompió algún ambiente?",
+          options: [
+            { text: "Ninguno/local", points: 0 },
+            { text: "SIT", points: 1 },
+            { text: "UAT", points: 3 },
+            { text: "PROD", points: 12 },
+          ],
+        },
+      ];
+
+      let currentQuestion = 0;
+      let totalPoints = 0;
+
+      const quizEl = document.getElementById("quiz");
+      const resultEl = document.getElementById("result");
+
+      function showQuestion() {
+        const q = questions[currentQuestion];
+        quizEl.innerHTML = `
+        <div class="question">
+          <h2>${q.text}</h2>
+          <div class="options">
+            ${q.options
+              .map(
+                (opt, idx) => `
+              <button onclick="selectOption(${opt.points})">${opt.text}</button>
+            `
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+      }
+
+      function selectOption(points) {
+        totalPoints += points;
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          showQuestion();
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        quizEl.innerHTML = "";
+        let facturas = 6;
+        facturas += totalPoints;
+
+        let mensaje;
+        if (facturas <= 10) {
+          mensaje = "No te vas a escapar de pagar 🏃🏼‍♂️";
+        } else if (facturas <= 20) {
+          mensaje = "Se empieza a poner interesante... para quién las recibe 😎";
+        } else if (facturas <= 30) {
+          mensaje = "Y... andá con la tarjeta por las dudas 💳";
+        } else {
+          mensaje = "Que decirte, ¿yo? analizaría cambiar de rubro y ponerme un parripollo 🍗🐔";
+        }
+
+        resultEl.innerHTML = `
+        <p>${mensaje}</p>
+      <p>Debés <strong>${facturas} facturas</strong> 🥐</p>
+      <button onclick="restartQuiz()" style="
+        margin-top: 1rem;
+        padding: 0.75rem 1.25rem;
+        font-weight: bold;
+        background: #ffe082;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      ">Volver a empezar</button>
+    `;
+      }
+
+      function restartQuiz() {
+        currentQuestion = 0;
+        totalPoints = 0;
+        resultEl.innerHTML = "";
+        showQuestion();
+      }
+
+      showQuestion();
+    </script>
+  </body>
+</html>

@@ -6,7 +6,7 @@
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
-        background: #fff4e6;
+        background: #1e2ca2;
         color: #333;
         display: flex;
         justify-content: center;
@@ -35,12 +35,13 @@
         padding: 0.75rem;
         border: none;
         border-radius: 0.5rem;
-        background: #ffcc80;
+        background: #deebff;
         cursor: pointer;
         font-weight: bold;
       }
       .options button:hover {
-        background: #ffb74d;
+        background: #1e2ca2;
+        color: white;
       }
       .result {
         text-align: center;
@@ -166,16 +167,19 @@
 
         resultEl.innerHTML = `
         <p>${mensaje}</p>
-      <p>Debés <strong>${facturas} facturas</strong> 🥐</p>
-      <button onclick="restartQuiz()" style="
-        margin-top: 1rem;
-        padding: 0.75rem 1.25rem;
-        font-weight: bold;
-        background: #ffe082;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-      ">Volver a empezar</button>
+        <p>Debés <strong>${facturas} facturas</strong> 🥐</p>
+        <div class="options" style="width: 40%; margin: 2.5rem auto 1rem auto; ">  
+          <button onclick="restartQuiz()" 
+            style="
+              padding: 0.75rem 1.25rem;
+              font-weight: bold;
+              border: none;
+              border-radius: 0.5rem;
+              cursor: pointer;
+            ">
+              Volver a empezar
+          </button>
+        </div>
     `;
       }
 
